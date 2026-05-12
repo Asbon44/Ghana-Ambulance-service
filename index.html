@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ghana Ambulance | Civilian Emergency Service</title>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Splash / Login Screen -->
+    <div id="auth-screen" class="screen active">
+        <div class="auth-container glass">
+            <img src="logo.PNG" alt="Ghana Ambulance Logo" class="main-logo">
+            <h1>Emergency Service</h1>
+            <p>Civilian Portal</p>
+
+            <form id="login-form">
+                <div class="input-group">
+                    <i class="fas fa-phone"></i>
+                    <input type="tel" id="phone" placeholder="Phone Number" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="password" placeholder="Password" required>
+                </div>
+                <button type="submit" class="btn-primary">Login</button>
+            </form>
+            <div class="auth-footer">
+                <p>Don't have an account? <a href="#">Register</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Map Screen -->
+    <div id="main-screen" class="screen">
+        <!-- Sidebar Navigation -->
+        <div id="sidebar" class="sidebar glass">
+            <div class="sidebar-header">
+                <img src="logo.PNG" alt="Profile" class="profile-img">
+                <div class="profile-info">
+                    <h3 id="user-display-name">Ken Ofori</h3>
+                    <p id="user-status">Verified Citizen</p>
+                </div>
+                <button id="close-sidebar" class="icon-btn">&times;</button>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" id="nav-dashboard" class="nav-item active"><i class="fas fa-map-marked-alt"></i> Dashboard</a>
+                <a href="#" id="nav-history" class="nav-item"><i class="fas fa-history"></i> Request History</a>
+                <a href="#" id="nav-first-aid" class="nav-item"><i class="fas fa-briefcase-medical"></i> First Aid Guide</a>
+                <a href="#" id="nav-profile" class="nav-item"><i class="fas fa-user-shield"></i> Medical Profile</a>
+                <a href="#" id="nav-settings" class="nav-item"><i class="fas fa-cog"></i> Settings</a>
+            </nav>
+            <div class="sidebar-footer">
+                <button id="logout-btn" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Sign Out</button>
+            </div>
+        </div>
+
+        <header class="app-header glass">
+            <div class="header-left">
+                <div id="live-clock" class="clock">12:00:00 PM</div>
+                <img src="logo.PNG" alt="NAS Logo" class="nav-logo">
+                <div class="brand-group">
+                    <span class="brand-name">NAS GHANA</span>
+                    <span class="status-badge"><span class="dot"></span> Operational</span>
+                </div>
+            </div>
+            <div class="header-right">
+                <button id="menu-btn" class="icon-btn"><i class="fas fa-bars"></i></button>
+            </div>
+        </header>
+
+        <div id="map"></div>
+
+        <!-- Emergency Action Button -->
+        <button id="emergency-fab" class="fab">
+            <i class="fas fa-ambulance"></i>
+            <span>Request Help</span>
+        </button>
+
+        <!-- First Aid Guide Modal -->
+        <div id="first-aid-modal" class="modal">
+            <div class="modal-content glass first-aid-content">
+                <div class="modal-header">
+                    <h2>First Aid Guide</h2>
+                    <button class="close-btn" onclick="document.getElementById('first-aid-modal').classList.remove('active')">&times;</button>
+                </div>
+                <div class="guide-scroll">
+                    <div class="guide-section">
+                        <h3><i class="fas fa-heartbeat"></i> CPR (Adults)</h3>
+                        <p>1. Request an ambulance immediately.</p>
+                        <p>2. Push hard and fast in the center of the chest.</p>
+                        <p>3. 100-120 compressions per minute.</p>
+                    </div>
+                    <div class="guide-section">
+                        <h3><i class="fas fa-user-slash"></i> Choking</h3>
+                        <p>1. Give 5 back blows between shoulder blades.</p>
+                        <p>2. Give 5 abdominal thrusts (Heimlich maneuver).</p>
+                        <p>3. Repeat until the object is forced out.</p>
+                    </div>
+                    <div class="guide-section">
+                        <h3><i class="fas fa-tint-slash"></i> Severe Bleeding</h3>
+                        <p>1. Apply direct pressure with a clean cloth.</p>
+                        <p>2. Keep pressure until help arrives.</p>
+                        <p>3. If blood soaks through, add more cloth on top.</p>
+                    </div>
+                    <div class="guide-section">
+                        <h3><i class="fas fa-fire-extinguisher"></i> Burns</h3>
+                        <p>1. Run cool (not cold) water over the burn for 10-20 mins.</p>
+                        <p>2. Cover with a sterile, non-adhesive bandage.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Request History Modal -->
+        <div id="history-modal" class="modal">
+            <div class="modal-content glass">
+                <div class="modal-header">
+                    <h2>Request History</h2>
+                    <button class="close-btn" onclick="document.getElementById('history-modal').classList.remove('active')">&times;</button>
+                </div>
+                <div id="history-list" class="list-container">
+                    <p class="empty-msg">No recent requests found.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Medical Profile Modal -->
+        <div id="profile-modal" class="modal">
+            <div class="modal-content glass">
+                <div class="modal-header">
+                    <h2>Medical Profile</h2>
+                    <button class="close-btn" onclick="document.getElementById('profile-modal').classList.remove('active')">&times;</button>
+                </div>
+                <form id="profile-form" class="profile-form">
+                    <div class="input-group">
+                        <label>Full Name</label>
+                        <input type="text" value="Ken Ofori" readonly>
+                    </div>
+                    <div class="input-group">
+                        <label>Blood Group</label>
+                        <select>
+                            <option>A+</option>
+                            <option>B+</option>
+                            <option>O+</option>
+                            <option>AB+</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Allergies</label>
+                        <input type="text" placeholder="e.g. Penicillin">
+                    </div>
+                    <button type="button" class="btn-primary">Save Profile</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Settings Modal -->
+        <div id="settings-modal" class="modal">
+            <div class="modal-content glass">
+                <div class="modal-header">
+                    <h2>Settings</h2>
+                    <button class="close-btn" onclick="document.getElementById('settings-modal').classList.remove('active')">&times;</button>
+                </div>
+                <div class="settings-list">
+                    <div class="setting-item">
+                        <span>Notifications</span>
+                        <input type="checkbox" checked>
+                    </div>
+                    <div class="setting-item">
+                        <span>Language</span>
+                        <select><option>English</option><option>Twi</option></select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Emergency Type Modal -->
+        <div id="emergency-modal" class="modal">
+            <div class="modal-content glass">
+                <h2>Type of Emergency</h2>
+                <div class="emergency-options">
+                    <button class="emergency-opt" data-type="Accident">
+                        <i class="fas fa-car-crash"></i>
+                        <span>Accident</span>
+                    </button>
+                    <button class="emergency-opt" data-type="Medical">
+                        <i class="fas fa-heartbeat"></i>
+                        <span>Medical</span>
+                    </button>
+                    <button class="emergency-opt" data-type="Fire">
+                        <i class="fas fa-fire"></i>
+                        <span>Fire</span>
+                    </button>
+                    <button class="emergency-opt" data-type="Other">
+                        <i class="fas fa-ellipsis-h"></i>
+                        <span>Other</span>
+                    </button>
+                </div>
+                <button id="close-modal" class="btn-secondary">Cancel</button>
+            </div>
+        </div>
+
+        <!-- Scanning Overlay -->
+        <div id="scanning-overlay" class="overlay">
+            <div class="scanning-content">
+                <div class="radar">
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                </div>
+                <h3>Locating Nearest Ambulance...</h3>
+                <p id="scanning-status">Contacting dispatcher</p>
+            </div>
+        </div>
+
+        <!-- Result Card -->
+        <div id="result-card" class="result-card glass">
+            <div class="result-header">
+                <h3>Ambulance Found!</h3>
+                <button id="close-result" class="close-btn">&times;</button>
+            </div>
+            <div class="result-body">
+                <div class="ambulance-info">
+                    <i class="fas fa-truck-medical"></i>
+                    <div>
+                        <h4 id="amb-id">AMB-GH-402</h4>
+                        <p id="amb-dist">Distance: 1.2 km</p>
+                    </div>
+                </div>
+                <div class="eta-box">
+                    <span>ETA:</span>
+                    <strong id="amb-eta">5 mins</strong>
+                </div>
+                <button class="btn-primary">Call Driver</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
