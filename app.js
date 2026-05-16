@@ -38,6 +38,10 @@ function startClock() {
 function checkAuth() {
     const isLoggedIn = localStorage.getItem('isLoggedIn');
     if (isLoggedIn === 'true') {
+        const userName = localStorage.getItem('userName');
+        if (userName) {
+            document.getElementById('user-display-name').innerText = userName;
+        }
         showScreen('main-screen');
     } else {
         showScreen('auth-screen');
@@ -121,11 +125,77 @@ function fetchAmbulancesFromFirebase() {
 }
 
 function setupEventListeners() {
+    // Toggle Screens
+    document.getElementById('show-register')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        showScreen('register-screen');
+    });
+
+    document.getElementById('show-login')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        showScreen('auth-screen');
+    });
+
     // Login
     document.getElementById('login-form')?.addEventListener('submit', (e) => {
         e.preventDefault();
-        localStorage.setItem('isLoggedIn', 'true');
-        showScreen('main-screen');
+        const phone = document.getElementById('phone').value;
+        const password = document.getElementById('password').value;
+
+        if (window.db) {
+            window.db.ref(`users/${phone}`).once('value', (snap) => {
+                const userData = snap.val();
+                if (userData && userData.password === password) {
+                    localStorage.setItem('isLoggedIn', 'true');
+                    localStorage.setItem('userPhone', phone);
+                    localStorage.setItem('userName', userData.name);
+                    
+                    document.getElementById('user-display-name').innerText = userData.name;
+                    showScreen('main-screen');
+                } else {
+                    alert("Invalid Phone Number or Password.");
+                }
+            });
+        } else {
+            // Fallback for development if no DB
+            localStorage.setItem('isLoggedIn', 'true');
+            showScreen('main-screen');
+        }
+    });
+
+    // Register
+    document.getElementById('register-form')?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = document.getElementById('reg-name').value;
+        const phone = document.getElementById('reg-phone').value;
+        const ghCard = document.getElementById('reg-ghana-card').value;
+        const password = document.getElementById('reg-password').value;
+
+        if (window.db) {
+            // Check if user already exists
+            window.db.ref(`users/${phone}`).once('value', (snap) => {
+                if (snap.exists()) {
+                    alert("A user with this phone number already exists.");
+                } else {
+                    window.db.ref(`users/${phone}`).set({
+                        name: name,
+                        phone: phone,
+                        ghana_card: ghCard,
+                        password: password, // Note: In a real app, never store plain text passwords
+                        registered_at: Date.now()
+                    }).then(() => {
+                        alert(`Account created for ${name}! You can now login.`);
+                        showScreen('auth-screen');
+                        e.target.reset();
+                    }).catch(err => {
+                        console.error("Registration Error:", err);
+                        alert("Error creating account. Please try again.");
+                    });
+                }
+            });
+        } else {
+            alert("Database not connected. Please check your connection.");
+        }
     });
 
     // Logout

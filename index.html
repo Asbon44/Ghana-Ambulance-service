@@ -35,7 +35,39 @@
                 <button type="submit" class="btn-primary">Login</button>
             </form>
             <div class="auth-footer">
-                <p>Don't have an account? <a href="#">Register</a></p>
+                <p>Don't have an account? <a href="#" id="show-register">Register</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Registration Screen -->
+    <div id="register-screen" class="screen">
+        <div class="auth-container glass">
+            <img src="logo.PNG" alt="Ghana Ambulance Logo" class="main-logo">
+            <h1>Create Account</h1>
+            <p>Join the Emergency Network</p>
+
+            <form id="register-form">
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="reg-name" placeholder="Full Name" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-phone"></i>
+                    <input type="tel" id="reg-phone" placeholder="Phone Number" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-id-card"></i>
+                    <input type="text" id="reg-ghana-card" placeholder="Ghana Card (Optional)">
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="reg-password" placeholder="Set Password" required>
+                </div>
+                <button type="submit" class="btn-primary">Register</button>
+            </form>
+            <div class="auth-footer">
+                <p>Already have an account? <a href="#" id="show-login">Login</a></p>
             </div>
         </div>
     </div>

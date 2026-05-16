@@ -47,25 +47,64 @@ body, html {
     border-radius: 20px;
 }
 
-/* Auth Screen */
-#auth-screen {
-    background: linear-gradient(135deg, #1a1a1a 0%, #000 100%);
+/* Auth & Register Screens */
+#auth-screen, #register-screen {
+    position: relative;
+    background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
+    background-image: 
+        radial-gradient(circle at center, #1a1a1a 0%, #000 100%),
+        radial-gradient(circle at 2px 2px, rgba(255,255,255,0.03) 1px, transparent 0);
+    background-size: 100% 100%, 30px 30px;
     justify-content: center;
     align-items: center;
+    overflow: hidden; /* Prevent pseudo-element overflow */
+}
+
+#auth-screen::before, #register-screen::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 150%;
+    height: 150%;
+    background: url('logo.PNG') no-repeat center;
+    background-size: 50%;
+    opacity: 0.05;
+    transform: translate(-50%, -50%) rotate(-15deg);
+    filter: blur(5px);
+    pointer-events: none;
+    z-index: 0;
 }
 
 .auth-container {
+    position: relative;
+    z-index: 1;
     width: 90%;
     max-width: 400px;
-    padding: 40px;
+    padding: 30px 40px;
     text-align: center;
     animation: fadeIn 0.8s ease-out;
+    margin: auto;
 }
 
 .main-logo {
-    width: 120px;
-    margin-bottom: 20px;
+    width: 100px;
+    margin-bottom: 15px;
     filter: drop-shadow(0 0 10px rgba(224, 60, 49, 0.3));
+}
+
+#register-screen .main-logo {
+    width: 70px;
+    margin-bottom: 10px;
+}
+
+#register-screen h1 {
+    font-size: 20px;
+}
+
+#register-screen p {
+    margin-bottom: 20px;
+    font-size: 14px;
 }
 
 h1 {
@@ -82,6 +121,10 @@ p {
 .input-group {
     position: relative;
     margin-bottom: 20px;
+}
+
+#register-screen .input-group {
+    margin-bottom: 12px;
 }
 
 .input-group i {
@@ -130,6 +173,10 @@ p {
 .auth-footer {
     margin-top: 25px;
     font-size: 14px;
+}
+
+#register-screen .auth-footer {
+    margin-top: 15px;
 }
 
 .auth-footer a {
