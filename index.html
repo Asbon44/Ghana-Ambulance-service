@@ -117,164 +117,166 @@
             <i class="fas fa-ambulance"></i>
             <span>Request Help</span>
         </button>
+    </div>
 
-        <!-- First Aid Guide Modal -->
-        <div id="first-aid-modal" class="modal">
-            <div class="modal-content glass first-aid-content">
-                <div class="modal-header">
-                    <h2>First Aid Guide</h2>
-                    <button class="close-btn" onclick="document.getElementById('first-aid-modal').classList.remove('active')">&times;</button>
+    <!-- ===================== MODALS (at body level for proper stacking) ===================== -->
+
+    <!-- First Aid Guide Modal -->
+    <div id="first-aid-modal" class="modal">
+        <div class="modal-content glass first-aid-content">
+            <div class="modal-header">
+                <h2>First Aid Guide</h2>
+                <button class="close-btn" id="close-first-aid">&times;</button>
+            </div>
+            <div class="guide-scroll">
+                <div class="guide-section">
+                    <h3><i class="fas fa-heartbeat"></i> CPR (Adults)</h3>
+                    <p>1. Request an ambulance immediately.</p>
+                    <p>2. Push hard and fast in the center of the chest.</p>
+                    <p>3. 100-120 compressions per minute.</p>
                 </div>
-                <div class="guide-scroll">
-                    <div class="guide-section">
-                        <h3><i class="fas fa-heartbeat"></i> CPR (Adults)</h3>
-                        <p>1. Request an ambulance immediately.</p>
-                        <p>2. Push hard and fast in the center of the chest.</p>
-                        <p>3. 100-120 compressions per minute.</p>
-                    </div>
-                    <div class="guide-section">
-                        <h3><i class="fas fa-user-slash"></i> Choking</h3>
-                        <p>1. Give 5 back blows between shoulder blades.</p>
-                        <p>2. Give 5 abdominal thrusts (Heimlich maneuver).</p>
-                        <p>3. Repeat until the object is forced out.</p>
-                    </div>
-                    <div class="guide-section">
-                        <h3><i class="fas fa-tint-slash"></i> Severe Bleeding</h3>
-                        <p>1. Apply direct pressure with a clean cloth.</p>
-                        <p>2. Keep pressure until help arrives.</p>
-                        <p>3. If blood soaks through, add more cloth on top.</p>
-                    </div>
-                    <div class="guide-section">
-                        <h3><i class="fas fa-fire-extinguisher"></i> Burns</h3>
-                        <p>1. Run cool (not cold) water over the burn for 10-20 mins.</p>
-                        <p>2. Cover with a sterile, non-adhesive bandage.</p>
-                    </div>
+                <div class="guide-section">
+                    <h3><i class="fas fa-user-slash"></i> Choking</h3>
+                    <p>1. Give 5 back blows between shoulder blades.</p>
+                    <p>2. Give 5 abdominal thrusts (Heimlich maneuver).</p>
+                    <p>3. Repeat until the object is forced out.</p>
+                </div>
+                <div class="guide-section">
+                    <h3><i class="fas fa-tint-slash"></i> Severe Bleeding</h3>
+                    <p>1. Apply direct pressure with a clean cloth.</p>
+                    <p>2. Keep pressure until help arrives.</p>
+                    <p>3. If blood soaks through, add more cloth on top.</p>
+                </div>
+                <div class="guide-section">
+                    <h3><i class="fas fa-fire-extinguisher"></i> Burns</h3>
+                    <p>1. Run cool (not cold) water over the burn for 10-20 mins.</p>
+                    <p>2. Cover with a sterile, non-adhesive bandage.</p>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Request History Modal -->
-        <div id="history-modal" class="modal">
-            <div class="modal-content glass">
-                <div class="modal-header">
-                    <h2>Request History</h2>
-                    <button class="close-btn" onclick="document.getElementById('history-modal').classList.remove('active')">&times;</button>
+    <!-- Request History Modal -->
+    <div id="history-modal" class="modal">
+        <div class="modal-content glass">
+            <div class="modal-header">
+                <h2>Request History</h2>
+                <button class="close-btn" id="close-history">&times;</button>
+            </div>
+            <div id="history-list" class="list-container">
+                <p class="empty-msg">No recent requests found.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Medical Profile Modal -->
+    <div id="profile-modal" class="modal">
+        <div class="modal-content glass">
+            <div class="modal-header">
+                <h2>Medical Profile</h2>
+                <button class="close-btn" id="close-profile">&times;</button>
+            </div>
+            <form id="profile-form" class="profile-form">
+                <div class="input-group">
+                    <label>Full Name</label>
+                    <input type="text" value="Ken Ofori" readonly>
                 </div>
-                <div id="history-list" class="list-container">
-                    <p class="empty-msg">No recent requests found.</p>
+                <div class="input-group">
+                    <label>Blood Group</label>
+                    <select>
+                        <option>A+</option>
+                        <option>B+</option>
+                        <option>O+</option>
+                        <option>AB+</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Allergies</label>
+                    <input type="text" placeholder="e.g. Penicillin">
+                </div>
+                <button type="button" class="btn-primary">Save Profile</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal">
+        <div class="modal-content glass">
+            <div class="modal-header">
+                <h2>Settings</h2>
+                <button class="close-btn" id="close-settings">&times;</button>
+            </div>
+            <div class="settings-list">
+                <div class="setting-item">
+                    <span>Notifications</span>
+                    <input type="checkbox" checked>
+                </div>
+                <div class="setting-item">
+                    <span>Language</span>
+                    <select><option>English</option><option>Twi</option></select>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Medical Profile Modal -->
-        <div id="profile-modal" class="modal">
-            <div class="modal-content glass">
-                <div class="modal-header">
-                    <h2>Medical Profile</h2>
-                    <button class="close-btn" onclick="document.getElementById('profile-modal').classList.remove('active')">&times;</button>
-                </div>
-                <form id="profile-form" class="profile-form">
-                    <div class="input-group">
-                        <label>Full Name</label>
-                        <input type="text" value="Ken Ofori" readonly>
-                    </div>
-                    <div class="input-group">
-                        <label>Blood Group</label>
-                        <select>
-                            <option>A+</option>
-                            <option>B+</option>
-                            <option>O+</option>
-                            <option>AB+</option>
-                        </select>
-                    </div>
-                    <div class="input-group">
-                        <label>Allergies</label>
-                        <input type="text" placeholder="e.g. Penicillin">
-                    </div>
-                    <button type="button" class="btn-primary">Save Profile</button>
-                </form>
+    <!-- Emergency Type Modal -->
+    <div id="emergency-modal" class="modal">
+        <div class="modal-content glass">
+            <h2>Type of Emergency</h2>
+            <div class="emergency-options">
+                <button class="emergency-opt" data-type="Accident">
+                    <i class="fas fa-car-crash"></i>
+                    <span>Accident</span>
+                </button>
+                <button class="emergency-opt" data-type="Medical">
+                    <i class="fas fa-heartbeat"></i>
+                    <span>Medical</span>
+                </button>
+                <button class="emergency-opt" data-type="Fire">
+                    <i class="fas fa-fire"></i>
+                    <span>Fire</span>
+                </button>
+                <button class="emergency-opt" data-type="Other">
+                    <i class="fas fa-ellipsis-h"></i>
+                    <span>Other</span>
+                </button>
             </div>
+            <button id="close-modal" class="btn-secondary">Cancel</button>
         </div>
+    </div>
 
-        <!-- Settings Modal -->
-        <div id="settings-modal" class="modal">
-            <div class="modal-content glass">
-                <div class="modal-header">
-                    <h2>Settings</h2>
-                    <button class="close-btn" onclick="document.getElementById('settings-modal').classList.remove('active')">&times;</button>
-                </div>
-                <div class="settings-list">
-                    <div class="setting-item">
-                        <span>Notifications</span>
-                        <input type="checkbox" checked>
-                    </div>
-                    <div class="setting-item">
-                        <span>Language</span>
-                        <select><option>English</option><option>Twi</option></select>
-                    </div>
-                </div>
+    <!-- Scanning Overlay -->
+    <div id="scanning-overlay" class="overlay">
+        <div class="scanning-content">
+            <div class="radar">
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
             </div>
+            <h3>Locating Nearest Ambulance...</h3>
+            <p id="scanning-status">Contacting dispatcher</p>
         </div>
+    </div>
 
-        <!-- Emergency Type Modal -->
-        <div id="emergency-modal" class="modal">
-            <div class="modal-content glass">
-                <h2>Type of Emergency</h2>
-                <div class="emergency-options">
-                    <button class="emergency-opt" data-type="Accident">
-                        <i class="fas fa-car-crash"></i>
-                        <span>Accident</span>
-                    </button>
-                    <button class="emergency-opt" data-type="Medical">
-                        <i class="fas fa-heartbeat"></i>
-                        <span>Medical</span>
-                    </button>
-                    <button class="emergency-opt" data-type="Fire">
-                        <i class="fas fa-fire"></i>
-                        <span>Fire</span>
-                    </button>
-                    <button class="emergency-opt" data-type="Other">
-                        <i class="fas fa-ellipsis-h"></i>
-                        <span>Other</span>
-                    </button>
-                </div>
-                <button id="close-modal" class="btn-secondary">Cancel</button>
-            </div>
+    <!-- Result Card -->
+    <div id="result-card" class="result-card glass">
+        <div class="result-header">
+            <h3>Ambulance Found!</h3>
+            <button id="close-result" class="close-btn">&times;</button>
         </div>
-
-        <!-- Scanning Overlay -->
-        <div id="scanning-overlay" class="overlay">
-            <div class="scanning-content">
-                <div class="radar">
-                    <div class="circle"></div>
-                    <div class="circle"></div>
-                    <div class="circle"></div>
+        <div class="result-body">
+            <div class="ambulance-info">
+                <i class="fas fa-truck-medical"></i>
+                <div>
+                    <h4 id="amb-id">AMB-GH-402</h4>
+                    <p id="amb-dist">Distance: 1.2 km</p>
                 </div>
-                <h3>Locating Nearest Ambulance...</h3>
-                <p id="scanning-status">Contacting dispatcher</p>
             </div>
-        </div>
-
-        <!-- Result Card -->
-        <div id="result-card" class="result-card glass">
-            <div class="result-header">
-                <h3>Ambulance Found!</h3>
-                <button id="close-result" class="close-btn">&times;</button>
+            <div class="eta-box">
+                <span>ETA:</span>
+                <strong id="amb-eta">5 mins</strong>
             </div>
-            <div class="result-body">
-                <div class="ambulance-info">
-                    <i class="fas fa-truck-medical"></i>
-                    <div>
-                        <h4 id="amb-id">AMB-GH-402</h4>
-                        <p id="amb-dist">Distance: 1.2 km</p>
-                    </div>
-                </div>
-                <div class="eta-box">
-                    <span>ETA:</span>
-                    <strong id="amb-eta">5 mins</strong>
-                </div>
-                <button class="btn-primary">Call Driver</button>
-            </div>
+            <button class="btn-primary">Call Driver</button>
         </div>
     </div>
 

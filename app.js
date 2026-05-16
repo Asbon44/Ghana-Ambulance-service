@@ -149,7 +149,7 @@ function setupEventListeners() {
                     localStorage.setItem('isLoggedIn', 'true');
                     localStorage.setItem('userPhone', phone);
                     localStorage.setItem('userName', userData.name);
-                    
+
                     document.getElementById('user-display-name').innerText = userData.name;
                     showScreen('main-screen');
                 } else {
@@ -172,7 +172,6 @@ function setupEventListeners() {
         const password = document.getElementById('reg-password').value;
 
         if (window.db) {
-            // Check if user already exists
             window.db.ref(`users/${phone}`).once('value', (snap) => {
                 if (snap.exists()) {
                     alert("A user with this phone number already exists.");
@@ -181,7 +180,7 @@ function setupEventListeners() {
                         name: name,
                         phone: phone,
                         ghana_card: ghCard,
-                        password: password, // Note: In a real app, never store plain text passwords
+                        password: password,
                         registered_at: Date.now()
                     }).then(() => {
                         alert(`Account created for ${name}! You can now login.`);
@@ -213,28 +212,25 @@ function setupEventListeners() {
     menuBtn?.addEventListener('click', () => sidebar?.classList.add('active'));
     closeSidebar?.addEventListener('click', () => sidebar?.classList.remove('active'));
 
-    // First Aid Guide
+    // Sidebar nav items
     document.getElementById('nav-first-aid')?.addEventListener('click', (e) => {
         e.preventDefault();
         sidebar?.classList.remove('active');
         document.getElementById('first-aid-modal')?.classList.add('active');
     });
 
-    // Request History
     document.getElementById('nav-history')?.addEventListener('click', (e) => {
         e.preventDefault();
         sidebar?.classList.remove('active');
         document.getElementById('history-modal')?.classList.add('active');
     });
 
-    // Medical Profile
     document.getElementById('nav-profile')?.addEventListener('click', (e) => {
         e.preventDefault();
         sidebar?.classList.remove('active');
         document.getElementById('profile-modal')?.classList.add('active');
     });
 
-    // Settings
     document.getElementById('nav-settings')?.addEventListener('click', (e) => {
         e.preventDefault();
         sidebar?.classList.remove('active');
@@ -254,18 +250,31 @@ function setupEventListeners() {
         });
     });
 
-    // Close Modals
-    document.getElementById('close-modal')?.addEventListener('click', () => {
-        document.getElementById('emergency-modal')?.classList.remove('active');
+    // Close Modals — all wired by ID (no inline onclick needed)
+    const closeModalMap = {
+        'close-modal':      'emergency-modal',
+        'close-result':     'result-card',
+        'close-first-aid':  'first-aid-modal',
+        'close-history':    'history-modal',
+        'close-profile':    'profile-modal',
+        'close-settings':   'settings-modal'
+    };
+    Object.entries(closeModalMap).forEach(([btnId, modalId]) => {
+        document.getElementById(btnId)?.addEventListener('click', () => {
+            document.getElementById(modalId)?.classList.remove('active');
+        });
     });
 
-    document.getElementById('close-result')?.addEventListener('click', () => {
-        document.getElementById('result-card')?.classList.remove('active');
+    // Click outside modal to close
+    document.querySelectorAll('.modal').forEach(modal => {
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) modal.classList.remove('active');
+        });
     });
 
-    // Global Click Outside
+    // Global Click Outside sidebar
     document.addEventListener('click', (e) => {
-        if (sidebar?.classList.contains('active') && !sidebar.contains(e.target) && !menuBtn.contains(e.target)) {
+        if (sidebar?.classList.contains('active') && !sidebar.contains(e.target) && menuBtn && !menuBtn.contains(e.target)) {
             sidebar.classList.remove('active');
         }
     });

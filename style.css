@@ -542,7 +542,7 @@ p {
     display: none;
     justify-content: center;
     align-items: center;
-    z-index: 100;
+    z-index: 3000;
 }
 
 .modal.active, .overlay.active {
@@ -627,11 +627,11 @@ p {
 
 /* Result Card */
 .result-card {
-    position: absolute;
+    position: fixed;
     bottom: 30px;
     left: 15px;
     right: 15px;
-    z-index: 20;
+    z-index: 3000;
     padding: 20px;
     transform: translateY(200%);
     transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
